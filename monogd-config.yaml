@@ -1,0 +1,18 @@
+net:
+   port: 27000
+   bindIp: 192.168.103.100,localhost
+
+storage:
+   dbPath: /var/mongodb/db/
+
+systemLog:
+   destination: file
+   path: /var/mongodb/db/mongod.log
+   logAppend: true
+
+processManagement:
+   fork: true
+
+operationProfiling:
+   mode: slowOp
+   slowOpThresholdMs: 50
