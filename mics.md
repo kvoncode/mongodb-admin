@@ -2,7 +2,7 @@
 
 ## Connect to mongod
 
-After running `mongod`, connect with follofing command
+After running `mongod`, connect with following command
 
 ```
 mongo --port 27001 -u m103-admin -p m103-pass
