@@ -1,0 +1,24 @@
+# one of the 3 config files of the replica set
+# run with command: mongod -f <config file name>
+
+net:
+   bindIp: 192.168.103.100,localhost
+   port: 27001
+
+storage:
+   dbPath: /var/mongodb/db/1
+
+processManagement:
+   fork: true # forking
+
+systemLog:
+   destination: file
+   path: /var/mongodb/db/mongod1.log
+   logAppend: true
+
+replication:
+   replSetName: m103-repl
+
+security:
+   authorization: enabled
+   keyFile: /var/mongodb/pki/m103-keyfile

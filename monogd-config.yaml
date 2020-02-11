@@ -1,3 +1,5 @@
+# custom config
+
 net:
    port: 27000
    bindIp: 192.168.103.100,localhost
