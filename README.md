@@ -4,7 +4,7 @@ This is MongoDB Administration related guide of how to create **Replica Sets, Sh
 
 # Creating shard
 
-## Creating Replica Set
+## Creating Replica Sets
 
 Shards consists of one or multiple replica sets, CSRS (Config Server Replica Set) and **mongos** instance
 
@@ -20,7 +20,11 @@ Below are 3 config files for a first replica set
 
 ```
 sharding:
-   clusterRole: shardsvr
+  clusterRole: shardsvr
+storage:
+  wiredTiger:
+     engineConfig:
+        cacheSizeGB: .1
 
 net:
    bindIp: 192.168.103.100,localhost
@@ -28,9 +32,6 @@ net:
 
 storage:
    dbPath: /var/mongodb/db/1
-   wiredTiger:
-      engineConfig:
-         cacheSizeGB: .1
 
 processManagement:
    fork: true
@@ -46,6 +47,7 @@ replication:
 security:
    authorization: enabled
    keyFile: /var/mongodb/pki/m103-keyfile
+
 ```
 
 #### node2.conf
@@ -79,6 +81,7 @@ replication:
 security:
    authorization: enabled
    keyFile: /var/mongodb/pki/m103-keyfile
+
 
 ```
 
@@ -114,6 +117,94 @@ security:
    authorization: enabled
    keyFile: /var/mongodb/pki/m103-keyfile
 
+
+```
+
+Be cautious of copy pasting and changing config files. You can mess around with **db** or **log** pathes and mongod will not give you any clue what is wrong.
+
+If you accidentally runned mongod instances with the same log path, all data are entangled and you need to delete log path folder
+
+Here are another replica set config files
+
+#### node4.conf
+
+```
+storage:
+  dbPath: /var/mongodb/db/4
+  wiredTiger:
+     engineConfig:
+        cacheSizeGB: .1
+net:
+  bindIp: 192.168.103.100,localhost
+  port: 27004
+security:
+  keyFile: /var/mongodb/pki/m103-keyfile
+systemLog:
+  destination: file
+  path: /var/mongodb/db/4/mongod.log
+  logAppend: true
+processManagement:
+  fork: true
+operationProfiling:
+  slowOpThresholdMs: 50
+replication:
+  replSetName: m103-repl-2
+sharding:
+  clusterRole: shardsvr
+```
+
+#### node5.conf
+
+```
+storage:
+  dbPath: /var/mongodb/db/5
+  wiredTiger:
+     engineConfig:
+        cacheSizeGB: .1
+net:
+  bindIp: 192.168.103.100,localhost
+  port: 27005
+security:
+  keyFile: /var/mongodb/pki/m103-keyfile
+systemLog:
+  destination: file
+  path: /var/mongodb/db/5/mongod.log
+  logAppend: true
+processManagement:
+  fork: true
+operationProfiling:
+  slowOpThresholdMs: 50
+replication:
+  replSetName: m103-repl-2
+sharding:
+  clusterRole: shardsvr
+```
+
+#### node6.conf
+
+```
+storage:
+  dbPath: /var/mongodb/db/6
+  wiredTiger:
+     engineConfig:
+        cacheSizeGB: .1
+net:
+  bindIp: 192.168.103.100,localhost
+  port: 27006
+security:
+  keyFile: /var/mongodb/pki/m103-keyfile
+systemLog:
+  destination: file
+  path: /var/mongodb/db/6/mongod.log
+  logAppend: true
+processManagement:
+  fork: true
+operationProfiling:
+  slowOpThresholdMs: 50
+replication:
+  replSetName: m103-repl-2
+sharding:
+  clusterRole: shardsvr
 ```
 
 ### Running replica set
