@@ -227,3 +227,44 @@ sudo chown vagrant:vagrant -R /var/mongodb
 openssl rand -base64 741 > /var/mongodb/pki/m103-keyfile
 chmod 600 /var/mongodb/pki/m103-keyfile
 ```
+
+Once you runned `mongod` command, you can check if `mongod` instances really are created with `pidof mongod` command. If necessary you can kill process by pid with `kill <pid>` or `killall mongod` command
+
+
+### Initiating replica set
+
+Before creating replica set user, we need to initiate with `rs.initiate()`
+
+After that you can check RS status with `rs.status()`. After some time you will get `PRIMARY` postfix in mongo shell
+
+### Creating user
+
+Before adding more `mongod` instances to RS if no user was created before we need to create `root` user.
+
+Connect with `mongod --port <port number>`
+
+Switch to `admin` database with `use admin`
+
+And create root user
+
+```
+db.createUser({
+  user: "m103-admin",
+  pwd: "m103-pass",
+  roles : [ "root" ]
+})
+```
+
+### Adding RS members
+
+We need to reconnect with `mongo --host "m103-repl/192.168.103.100:27001" -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin"`
+
+And then add more members with 
+```
+rs.add("m103:27002")
+rs.add("m103:27003")
+```
+
+### Create second RS
+
+You need to also initiate second RS the same way
