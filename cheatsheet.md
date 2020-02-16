@@ -1,6 +1,14 @@
-# MongoDB
+# MongoDB useful commands
 
-## Connect to mongod
+## mongod
+
+### Creating simple mongod
+
+```
+mongod --port 30000 --dbpath first_mongod --logpath first_mongod/mongod.log --fork
+```
+
+### Connect to mongod
 
 After running `mongod`, connect with following command
 
