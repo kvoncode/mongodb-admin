@@ -268,3 +268,129 @@ rs.add("m103:27003")
 ### Create second RS
 
 You need to also initiate second RS the same way
+
+## Config Servers
+
+Config servers are the `mongod` processes with special config file
+
+### Config files
+
+#### csrs1.conf
+```
+sharding:
+   clusterRole: configsvr
+
+net:
+   bindIp: 192.168.103.100,localhost
+   port: 26001
+
+storage:
+   dbPath: /var/mongodb/db/csrs1
+
+systemLog:
+   destination: file
+   path: /var/mongodb/db/csrs1/mongod.log
+   logAppend: true
+
+replication:
+   replSetName: m103-csrs
+
+security:
+   keyFile: /var/mongodb/pki/m103-keyfile
+
+processManagement:
+   fork: true
+```
+
+#### csrs2.conf
+```
+
+sharding:
+   clusterRole: configsvr
+
+net:
+   bindIp: 192.168.103.100,localhost
+   port: 26002
+
+storage:
+   dbPath: /var/mongodb/db/csrs2
+
+systemLog:
+   destination: file
+   path: /var/mongodb/db/csrs2/mongod.log
+   logAppend: true
+
+replication:
+   replSetName: m103-csrs
+
+security:
+   keyFile: /var/mongodb/pki/m103-keyfile
+
+processManagement:
+   fork: true
+```
+
+#### csrs3.conf
+```
+sharding:
+   clusterRole: configsvr
+
+net:
+   bindIp: 192.168.103.100,localhost
+   port: 26003
+
+storage:
+   dbPath: /var/mongodb/db/csrs3
+
+systemLog:
+   destination: file
+   path: /var/mongodb/db/csrs3/mongod.log
+   logAppend: true
+
+replication:
+   replSetName: m103-csrs
+
+security:
+   keyFile: /var/mongodb/pki/m103-keyfile
+
+processManagement:
+   fork: true
+```
+
+After creating this files run CSRS with 
+```
+mongod -f csrs1.conf
+mongod -f csrs2.conf
+mongod -f csrs3.conf
+```
+
+Then connect and initiate replica set with 
+```
+mongo --port 26001
+rs.initiate()
+```
+
+If not created, create user
+```
+use admin
+db.createUser({
+  user: "m103-admin",
+  pwd: "m103-pass",
+  roles: [
+    {role: "root", db: "admin"}
+  ]
+})
+```
+
+And authenticate inside mongo shell
+```
+db.auth("m103-admin", "m103-pass")
+```
+
+Add other members if not added
+```
+rs.add("192.168.103.100:26002")
+rs.add("192.168.103.100:26003")
+```
+
+### Mongo
