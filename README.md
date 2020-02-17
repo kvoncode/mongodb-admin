@@ -393,4 +393,43 @@ rs.add("192.168.103.100:26002")
 rs.add("192.168.103.100:26003")
 ```
 
-### Mongo
+## Mongos
+
+Inside `mongos` config file we specify config servers hostname and ports, so we need just run `mongos`, connect to it through `mongo` and add our RS to shard
+
+### mongos.conf
+```
+sharding:
+  configDB: m103-csrs/192.168.103.100:26001,192.168.103.100:26002,192,168,103.100:26003
+security:
+  keyFile: /var/mongodb/pki/m103-keyfile
+net:
+  bindIp: localhost,192.168.103.100
+  port: 26000
+systemLog:
+  destination: file
+  path: /var/mongodb/db/mongos.log
+  logAppend: true
+processManagement:
+  fork: true
+
+```
+
+Run `mongos` with `mongos -f mongos.conf`
+
+Connect to `mongos` `mongo --port 26000 --username m103-admin --password m103-pass --authenticationDatabase admin`
+
+Check shard status `sh.status()`
+
+Add our shard with `sh.addShard("m103-repl/192.168.103.100:27012")`
+
+Restart RS if necessary
+
+```
+mongo --port 27002 -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin"
+use admin
+db.shutdownServer()
+```
+
+## Second RS
+
