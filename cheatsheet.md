@@ -1,4 +1,17 @@
-# MongoDB useful commands
+# Cheatsheet
+
+## Frequently used commands
+
+### Authenticate inside mongos shell
+
+```
+db.auth("m103-admin", "m103-pass")
+```
+
+### Connect to replica set
+```
+mongo --host "m103-repl/192.168.103.100:27001" -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin"
+```
 
 ## mongod
 
