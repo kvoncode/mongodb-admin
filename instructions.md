@@ -10,6 +10,24 @@ Running 2 shards and 1 CSRS is very similar, the only difference is configuratio
 
 ## Running replica set/shard
 
+### Prerequisites
+
+- `dbPath` already should be created
+
+```
+mkdir /var/mongodb/db/{1,2,3}
+```
+
+- keyfile should exist
+
+```
+sudo mkdir -p /var/mongodb/pki
+sudo chown vagrant:vagrant -R /var/mongodb
+openssl rand -base64 741 > /var/mongodb/pki/m103-keyfile
+chmod 600 /var/mongodb/pki/m103-keyfile
+```
+
+### Initiating replica set
 Here is example of how to run replica set/shard
 
 Run 
@@ -24,7 +42,11 @@ Check with
 pidof mongod
 ```
 
-### Initiating replica set
+Kill if necessary
+```
+kill <pid>
+killall mongod
+```
 
 ```
 rs.initiate()
@@ -58,6 +80,8 @@ Check RS status
 ```
 rs.status()
 ```
+
+The same procedure is necessary for second shard and CSRS
 
 ## Handling errors
 
