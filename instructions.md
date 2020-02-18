@@ -30,7 +30,7 @@ chmod 600 /var/mongodb/pki/m103-keyfile
 ### Initiating replica set
 Here is example of how to run replica set/shard
 
-Run 
+Run `mongod`
 ```
 mongod -f node1.conf
 mongod -f node1.conf
@@ -48,12 +48,13 @@ kill <pid>
 killall mongod
 ```
 
+Initiate replica set
 ```
 rs.initiate()
 rs.status()
 ```
 
-### Create user
+Create user
 ```
 use admin
 db.createUser({
