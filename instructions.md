@@ -30,7 +30,6 @@ chmod 600 /var/mongodb/pki/m103-keyfile
 ```
 
 ### Initiating replica set
-Here is example of how to run replica set/shard
 
 Run `mongod`
 ```
