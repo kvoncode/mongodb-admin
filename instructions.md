@@ -12,6 +12,14 @@ Running 2 shards and 1 CSRS is very similar, the only difference is configuratio
 
 Here is example of how to run replica set/shard
 
+Run 
+
+```
+mongod -f node1.conf
+mongod -f node1.conf
+mongod -f node1.conf
+```
+
 
 ## Handling errors
 
