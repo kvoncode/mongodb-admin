@@ -82,6 +82,11 @@ or for second shard
 mongo --host "m103-repl-2/192.168.103.100:27004" -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin"
 ```
 
+or for CSRS
+```
+mongo --host "m103-csrs/192.168.103.100:26001" -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin"
+```
+
 Add RS members
 ```
 rs.add("m103:27002")
@@ -93,6 +98,12 @@ for second shard
 ```
 rs.add("m103:27005")
 rs.add("m103:27006")
+```
+
+for CSRS
+```
+rs.add("m103:26002")
+rs.add("m103:26003")
 ```
 
 Check RS status
@@ -123,6 +134,11 @@ sh.status()
 Add shard
 ```
 sh.addShard("m103-repl/192.168.103.100:27001")
+```
+
+Add second shard
+```
+sh.addShard("m103-repl-2/192.168.103.100:27004")
 ```
 
 Restart RS if necessary
