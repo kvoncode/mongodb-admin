@@ -13,7 +13,7 @@ mongo --host "m103-repl/192.168.103.100:27001" -u "m103-admin" -p "m103-pass" --
 
 ## Creating new dirs 
 ```
-mkdir /var/mongodb/db/{1,2,3,4,5,6,csrs1,csrs2,csrs3}
+mkdir -p /var/mongodb/db/{1,2,3,4,5,6,csrs1,csrs2,csrs3}
 ```
 
 ## Running mongod and CSRS
@@ -23,7 +23,6 @@ mongod -f node2.conf
 mongod -f node3.conf
 mongod -f node4.conf
 mongod -f node5.conf
-mongod -f node6.conf
 mongod -f node6.conf
 mongod -f csrs1.conf
 mongod -f csrs2.conf

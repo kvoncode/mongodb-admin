@@ -49,6 +49,11 @@ kill <pid>
 killall mongod
 ```
 
+Connect to RS member
+```
+mongo --port 27001
+```
+
 Initiate replica set
 ```
 rs.initiate()
@@ -71,11 +76,23 @@ Reconnect to RS
 ```
 mongo --host "m103-repl/192.168.103.100:27001" -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin"
 ```
+or for second shard
+
+```
+mongo --host "m103-repl-2/192.168.103.100:27004" -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin"
+```
 
 Add RS members
 ```
 rs.add("m103:27002")
 rs.add("m103:27003")
+```
+
+for second shard
+
+```
+rs.add("m103:27005")
+rs.add("m103:27006")
 ```
 
 Check RS status
