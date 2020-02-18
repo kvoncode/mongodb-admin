@@ -159,15 +159,22 @@ mongoimport --drop /dataset/products.json --port 26000 -u "m103-admin" \
 
 ## Enabling sharding
 
-Enable sharding with
+Connect to mongos again
+```
+mongo --port 26000 --username m103-admin --password m103-pass --authenticationDatabase admin
+```
+
+And enable sharding with
 
 ```
-sh.enableSharding("m103")
+
+sh.enableSharding("<db name>")
 ```
 
 Creating index
 
 ```
+use <db name>
 db.products.createIndex({"<shard_key>": 1})
 ```
 
