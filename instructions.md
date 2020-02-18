@@ -84,6 +84,65 @@ rs.status()
 
 The same procedure is necessary for second shard and CSRS
 
+## Mongos
+
+After running CSRS, run `mongos`
+
+```
+mongos -f mongos.conf
+```
+
+Connect to mongos
+```
+mongo --port 26000 --username m103-admin --password m103-pass --authenticationDatabase admin
+```
+
+Check shard status
+```
+sh.status()
+```
+
+Add shard
+```
+sh.addShard("m103-repl/192.168.103.100:27001")
+```
+
+Restart RS if necessary
+```
+mongo --port 27002 -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin"
+use admin
+db.shutdownServer()
+```
+
+## Importing collection
+
+Import with
+```
+mongoimport --drop /dataset/products.json --port 26000 -u "m103-admin" \
+-p "m103-pass" --authenticationDatabase "admin" \
+--db m103 --collection products
+```
+
+## Enabling sharding
+
+Enable sharding with
+
+```
+sh.enableSharding("m103")
+```
+
+Creating index
+
+```
+db.products.createIndex({"<shard_key>": 1})
+```
+
+Choosing shardkey
+
+```
+db.adminCommand( { shardCollection: "m103.products", key: { <shard_key>: 1 } } )
+```
+
 ## Handling errors
 
 Most hard to debug and most common errors is messing up config files, log files and folder. Deleting mongodb folders and starting from scratch should help
