@@ -1,0 +1,35 @@
+mongo "mongodb://cluster0-shard-00-00-jxeqq.mongodb.net:27017,cluster0-shard-00-01-jxeqq.mongodb.net:27017,cluster0-shard-00-02-jxeqq.mongodb.net:27017/test?replicaSet=Cluster0-shard-0" --authenticationDatabase admin --tls --username m001-student --password m001-mongodb-basics
+
+mongo "mongodb+srv://cluster0-bmfcu.mongodb.net/test" --authenticationDatabase admin --username m001-student --password m001-mongodb-basics 
+
+
+db.createUser({
+  user: "m103-admin",
+  pwd: "m103-pass",
+  roles : [ "root" ]
+})
+
+mongo --port 27001 -u m103-admin -p m103-pass
+
+mongo --host "m103-repl/192.168.103.100:27001" -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin"
+
+mongo --port 26000 -u "m103-admin" -p "m103-pass" --authenticationDatabase "admin"
+
+db.createUser({
+  user: "m103-application-user",
+  pwd: "m103-application-pass",
+  roles : [ {db: "applicationData", role: "readWrite"} ]
+})
+
+mongoimport --drop \
+--host m103-repl/192.168.103.100:27002,192.168.103.100:27001,192.168.103.100:27003 \
+-u "m103-admin" -p "m103-pass" --authenticationDatabase "admin" \
+--db applicationData --collection products /dataset/products.json
+
+db.system.version.insert({
+    "_id" : "shardIdentity",
+    "clusterId" : ObjectId("5e43f0e857905af07ebeceea"),
+    "shardName" : "m103-repl-2",
+    "configsvrConnectionString" : "conf/192.168.103.100"
+})
+
